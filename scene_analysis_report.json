@@ -1,0 +1,21 @@
+{
+    "image": "uploads\\Screenshot 2026-05-09 140530.png",
+    "total_objects_detected": 1,
+    "evidence_markers": [
+        {
+            "label": "chair",
+            "confidence": 0.42,
+            "bbox": [
+                709,
+                340,
+                780,
+                416
+            ]
+        }
+    ],
+    "reconstruction_files": [
+        "./evidence_markers.jpg",
+        "./scene_depth.jpg",
+        "./scene_reconstruction_3d.ply"
+    ]
+}

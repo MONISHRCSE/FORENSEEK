@@ -1,0 +1,32 @@
+{
+  "calls": [
+    {"time": "22:02", "number": "+91-XXXX-1234", "type": "outgoing", "duration": 42, "contact": "Unknown"},
+    {"time": "22:08", "number": "+91-XXXX-1234", "type": "outgoing", "duration": 18, "contact": "Unknown"},
+    {"time": "22:11", "number": "+91-XXXX-5678", "type": "incoming", "duration": 120, "contact": "Marcus Vance"},
+    {"time": "22:14", "number": "+91-XXXX-1234", "type": "outgoing", "duration": 9, "contact": "Unknown"},
+    {"time": "22:18", "number": "+91-XXXX-9999", "type": "missed", "duration": 0, "contact": "Unknown"},
+    {"time": "22:31", "number": "+91-XXXX-1234", "type": "outgoing", "duration": 6, "contact": "Unknown"},
+    {"time": "22:41", "number": "+91-XXXX-5678", "type": "incoming", "duration": 57, "contact": "Marcus Vance"}
+  ],
+  "sms": [
+    {"time": "21:55", "number": "+91-XXXX-1234", "direction": "sent", "text": "Meet near warehouse gate 4 at 10 PM. Don't be late."},
+    {"time": "22:01", "number": "+91-XXXX-1234", "direction": "received", "text": "Ok. Coming. Are the cameras off?"},
+    {"time": "22:19", "number": "+91-XXXX-5678", "direction": "sent", "text": "Everything done. Heading out now."},
+    {"time": "22:33", "number": "+91-XXXX-1234", "direction": "sent", "text": "Don't call again. Lose the phone."}
+  ],
+  "gps": [
+    {"time": "21:48", "lat": 12.9716, "lon": 77.5946, "label": "Suspect Home Area"},
+    {"time": "22:02", "lat": 12.9750, "lon": 77.6010, "label": "Industrial Parking Area"},
+    {"time": "22:14", "lat": 12.9780, "lon": 77.6070, "label": "Warehouse District - Gate 4"},
+    {"time": "22:31", "lat": 12.9800, "lon": 77.6100, "label": "Crime Scene Vicinity"},
+    {"time": "22:44", "lat": 12.9830, "lon": 77.6150, "label": "Highway 9 Southbound Exit"}
+  ],
+  "apps": [
+    {"time": "21:52", "app": "WhatsApp", "action": "Active"},
+    {"time": "22:00", "app": "Maps", "action": "Navigation started to Warehouse District"},
+    {"time": "22:19", "app": "WhatsApp", "action": "Message sent (Encrypted)"},
+    {"time": "22:39", "app": "Signal", "action": "Voice Call Initiated"},
+    {"time": "22:41", "app": "Phone", "action": "Cellular Call made"},
+    {"time": "22:44", "app": "Device", "action": "Device Powered Off / Signal Lost"}
+  ]
+}

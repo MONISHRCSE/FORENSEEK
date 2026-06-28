@@ -1,0 +1,11 @@
+content = open('index.html', encoding='utf-8').read()
+content = content.replace("goToStep(\\'cctv\\', \\'voice\\')", "goToStep('cctv', 'voice')")
+content = content.replace("goToStep(\\'voice\\', \\'metadata\\')", "goToStep('voice', 'metadata')")
+content = content.replace("goToStep(\\'metadata\\', \\'timeline\\')", "goToStep('metadata', 'timeline')")
+content = content.replace("goToStep(\\'timeline\\', \\'graph\\')", "goToStep('timeline', 'graph')")
+content = content.replace("goToStep(\\'graph\\', \\'contradiction\\')", "goToStep('graph', 'contradiction')")
+content = content.replace("goToStep(\\'contradiction\\', \\'autopsy\\')", "goToStep('contradiction', 'autopsy')")
+content = content.replace("goToStep(\\'autopsy\\', \\'final\\')", "goToStep('autopsy', 'final')")
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(content)
+print('Fixed HTML syntax errors!')

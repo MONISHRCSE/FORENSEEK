@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FORENSEEK 3D Crime Scene Viewer</title>
+    <style>
+        body { margin: 0; background-color: #0d1117; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
+        #canvas-container { width: 100vw; height: 100vh; }
+        #overlay { 
+            position: absolute; 
+            top: 20px; 
+            left: 20px; 
+            background: rgba(13, 17, 23, 0.85); 
+            padding: 20px; 
+            border-radius: 12px; 
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+        h1 { margin: 0 0 8px 0; font-size: 1.4rem; color: #58a6ff; font-weight: 600; letter-spacing: 0.5px; }
+        p { margin: 0; font-size: 0.95rem; color: #c9d1d9; }
+        .controls { font-size: 0.8rem; margin-top: 15px; color: #8b949e; border-top: 1px solid #30363d; padding-top: 10px;}
+        .badge { display: inline-block; padding: 3px 8px; background: #238636; border-radius: 10px; font-size: 0.7rem; font-weight: bold; margin-bottom: 10px;}
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div class="badge">AI RECONSTRUCTION ACTIVE</div>
+        <h1>FORENSEEK Spatial Intelligence</h1>
+        <p>Interactive 3D Crime Scene Point Cloud</p>
+        <p class="controls">Left Click: Rotate | Right Click: Pan | Scroll: Zoom</p>
+    </div>
+    <div id="canvas-container"></div>
+
+    <!-- Import Three.js and PLYLoader -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { PLYLoader } from 'three/addons/loaders/PLYLoader.js';
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        // Add a subtle grid helper for spatial context
+        const gridHelper = new THREE.GridHelper( 500, 50, 0x30363d, 0x30363d );
+        gridHelper.position.y = -100;
+        scene.add( gridHelper );
+
+        const camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.1, 2000 );
+        camera.position.set( 0, 0, 400 );
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild( renderer.domElement );
+
+        const controls = new OrbitControls( camera, renderer.domElement );
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Load PLY Point Cloud
+        const loader = new PLYLoader();
+        loader.load( 'scene_reconstruction_3d.ply?v=' + new Date().getTime(), function ( geometry ) {
+            
+            // Create point cloud material
+            const material = new THREE.PointsMaterial( { 
+                size: 2.5, 
+                vertexColors: true,
+                sizeAttenuation: true
+            } );
+            
+            const points = new THREE.Points( geometry, material );
+            
+            // Center the geometry
+            geometry.computeBoundingBox();
+            const center = new THREE.Vector3();
+            geometry.boundingBox.getCenter(center);
+            points.position.sub(center);
+
+            // Fix orientation (upside down from camera usually)
+            points.rotation.z = Math.PI;
+
+            scene.add( points );
+
+        }, 
+        function ( xhr ) {
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+        },
+        function ( error ) {
+            console.error( error );
+            alert("Error loading PLY file. Ensure you are running this through the local Python web server!");
+        } );
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame( animate );
+            controls.update();
+            renderer.render( scene, camera );
+        }
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', onWindowResize, false);
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize( window.innerWidth, window.innerHeight );
+        }
+    </script>
+</body>
+</html>
